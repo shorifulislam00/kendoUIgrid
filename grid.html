@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <title>Kendo UI grid</title>
+        <link href="assets/css/kendo.common.min.css">
+        <link href="assets/css/kendo.default.min.css">
+
+        <script src="assets/js/jquery-3.1.1.js"></script>
+        <script src="assets/js/angular.min.js"></script>
+        <script src="assets/js/kendo.all.min.js"></script>
+        <script src="assets/js/ng-institution.js"></script>
+
+    </head>
+
+    <body ng-app="myApp" ng-controller="myCtrl">
+
+        <kendo-grid options="mainGridOptions">
+        </kendo-grid>
+
+
+    <script>
+        angular.module("myApp", [ "kendo.directives" ])
+                .controller("myCtrl", function($scope){
+                    $scope.mainGridOptions = {
+                        dataSource: {
+                            transport: {
+                                read: {
+                                    contentType : 'application/json',
+                                    type : 'GET',
+                                    url : 'getRecord.php'
+                                }
+                            },
+                            schema: {
+                                data: function (response) {
+                                    return response.data;
+                                }
+                            }
+
+                        },
+                        columns: [{
+                            field: "name",
+                            title: "Institute Name",
+                            width: "180px"
+                        },{
+                            field: "address",
+                            title: "Address",
+                            width: "120px"
+                        },{
+                            field: "phone",
+                            title: "Phone",
+                            width: "120px"
+                        },{
+                            field: "fax",
+                            title: "Fax",
+                            width: "120px"
+                        },{
+                            field: "mobile",
+                            title: "Mobile",
+                            width: "120px"
+                        },{
+                            field: "email",
+                            title: "Email",
+                            width: "120px"
+                        },{
+                            field: "web_addr",
+                            title: "Web Address",
+                            width: "120px"
+                        }]
+                    };
+                });
+    </script>
+    </body>
+
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Institute adding by angularJS</title>
+		<script type="text/javascript" src="assets/js/jquery-3.1.1.js"></script>
+		<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="assets/js/angular.min.js"></script>
+		<script type="text/javascript" src="assets/js/ng-institution.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+	</head>
+	<body ng-app="myApp" ng-controller="myCtrl">
+		<!-- <h3 style="text-align: center;text-decoration: underline;">Institute Report</h3> -->
+	
+
+		<div class="col-md-offset-1 col-md-10" style="margin-top: 10px;">
+			<button class="btn btn-info" style="margin-bottom: 5px;" data-toggle="modal" data-target="#myEdit" ng-click="itemReset()" ><i class="glyphicon glyphicon-plus"></i> New Institution</button>
+			<div class="panel panel-info">
+				<div class="panel-heading"><h4>Institution Information</h4></div>
+				<div class="panel-body">
+					<table class="table table-stripped table-borderd">
+						<thead>
+							<tr>
+								<th>SI</th>
+								<th>Institute Name</th>
+								<th>Address</th>
+								<th>Phone</th>
+								<th>Fax</th>
+								<th>Mobile</th>
+								<th>Email</th>
+								<th>Web Address</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="x in instituteInfo">
+								<td>{{$index + 1}}</td>
+								<td> {{x.name}} </td>
+								<td> {{x.address}} </td>
+								<td> {{x.phone}} </td>
+								<td> {{x.fax}} </td>
+								<td> {{x.mobile}} </td>
+								<td> {{x.email}} </td>
+								<td> {{x.web_addr}} </td>
+								<td style="width: 120px;">
+									<button class="btn btn-xs btn-info" data-toggle="modal" data-target="#myEdit" ng-click="editInfo(x.id,$index)"> <i class="glyphicon glyphicon-pencil"></i> Edit</button>
+									<button class="btn btn-xs btn-danger" ng-click="deleteInfo(x.id,$index)" > <i class="glyphicon glyphicon-delete"></i> Delete</button>
+								</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="7">{{updateMsg}}</td>
+								<td colspan="2">Total : {{total}} data found</td>
+							</tr>
+						</tfoot>
+					</table>		
+				</div>
+			</div>
+		</div>
+
+
+		<!-- add new information option modal start -->
+		<!--<div class="modal fade" tabindex="-1" id="myAdd" role="dialog" >-->
+		  <!--<div class="modal-dialog modal-md" role="document">-->
+		    <!--<div class="modal-content">-->
+		      <!---->
+		      <!--<div class="modal-header"><h3>Add New Institution Information</h3></div>-->
+		      <!---->
+		      <!--<div class="modal-body">-->
+		      	<!--<table class="table table-stripped table-borderd">-->
+		      		<!--<tr>-->
+		      			<!--<th>Institution Name</th>-->
+		      			<!--<td>-->
+		      				<!--<input type="text" ng-model="addName" class="form-control">-->
+		      			<!--</td>-->
+		      		<!--</tr>-->
+
+		      		<!--<tr>-->
+		      			<!--<th>Address</th>-->
+		      			<!--<td>-->
+		      				<!--<input type="text" ng-model="addAddr" class="form-control">-->
+		      			<!--</td>-->
+		      		<!--</tr>-->
+
+		      		<!--<tr>-->
+		      			<!--<th>Phone</th>-->
+		      			<!--<td>-->
+		      				<!--<input type="text" ng-model="addPhone" class="form-control">-->
+		      			<!--</td>-->
+		      		<!--</tr>-->
+
+		      		<!--<tr>-->
+		      			<!--<th>Fax</th>-->
+		      			<!--<td>-->
+		      				<!--<input type="text" ng-model="addFax" class="form-control">-->
+		      			<!--</td>-->
+		      		<!--</tr>-->
+
+		      		<!--<tr>-->
+		      			<!--<th>Mobile</th>-->
+		      			<!--<td>-->
+		      				<!--<input type="text" ng-model="addMobile" class="form-control">-->
+		      			<!--</td>-->
+		      		<!--</tr>-->
+
+		      		<!--<tr>-->
+		      			<!--<th>Email</th>-->
+		      			<!--<td>-->
+		      				<!--<input type="email" ng-model="addEmail" class="form-control">-->
+		      			<!--</td>-->
+		      		<!--</tr>-->
+
+		      		<!--<tr>-->
+		      			<!--<th>Web Address</th>-->
+		      			<!--<td>-->
+		      				<!--<input type="text" ng-model="addWebLink" class="form-control">-->
+		      			<!--</td>-->
+		      		<!--</tr>-->
+
+		      	<!--</table>-->
+		      <!--</div>-->
+		    <!---->
+			    <!--<div class="modal-footer">-->
+			    	<!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+			    	<!--<button type="button" class="btn btn-primary" ng-click="addNewInfo()" >Save changes</button>-->
+			    <!--</div>-->
+
+		    <!--</div>-->
+		  <!--</div>-->
+		<!--</div>-->
+		<!-- add new information option modal end -->
+
+		<!-- edit option modal start -->
+		<div class="modal fade" tabindex="-1" id="myEdit" role="dialog" >
+		  <div class="modal-dialog modal-md" role="document">
+		    <div class="modal-content">
+		      
+		      <div class="modal-header">
+				  	<h3 ng-show="addHeaderTxt">Add New Institution Information</h3>
+				  	<h3 ng-show="updateHeaderTxt">Update Institution Information</h3>
+			  </div>
+		      
+		      <div class="modal-body">
+		      	<table class="table table-stripped table-borderd">
+		      		<tr>
+		      			<th>Institution Name</th>
+		      			<td>
+		      				<input type="text" ng-model="editName" class="form-control">
+		      				<input type="hidden" ng-model="editId">
+		      				<input type="hidden" ng-model="editIndex">
+		      			</td>
+		      		</tr>
+
+		      		<tr>
+		      			<th>Address</th>
+		      			<td>
+		      				<input type="text" ng-model="editAddr" class="form-control">
+		      			</td>
+		      		</tr>
+
+		      		<tr>
+		      			<th>Phone</th>
+		      			<td>
+		      				<input type="text" ng-model="editPhone" class="form-control">
+		      			</td>
+		      		</tr>
+
+		      		<tr>
+		      			<th>Fax</th>
+		      			<td>
+		      				<input type="text" ng-model="editFax" class="form-control">
+		      			</td>
+		      		</tr>
+
+		      		<tr>
+		      			<th>Mobile</th>
+		      			<td>
+		      				<input type="text" ng-model="editMobile" class="form-control">
+		      			</td>
+		      		</tr>
+
+		      		<tr>
+		      			<th>Email</th>
+		      			<td>
+		      				<input type="email" ng-model="editEmail" class="form-control">
+		      			</td>
+		      		</tr>
+
+		      		<tr>
+		      			<th>Web Address</th>
+		      			<td>
+		      				<input type="text" ng-model="editWebLink" class="form-control">
+		      			</td>
+		      		</tr>
+
+		      	</table>
+		      </div>
+		    
+			    <div class="modal-footer">
+			    	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			    	<button type="button" class="btn btn-primary" ng-click="updateInfo()" ng-show="updateHeaderTxt" >Update</button>
+			    	<button type="button" class="btn btn-primary" ng-click="addNewInfo()" ng-show="addHeaderTxt" >Save</button>
+			    </div>
+
+		    </div>
+		  </div>
+		</div>
+		<!-- edit option modal end -->
+
+	</body>
+
+</html>
