@@ -14,3 +14,15 @@ header('Content-Type: application/json');
  	echo json_encode(['status'=>'success','message'=>'data found','data'=>$instituteInfo,'total'=>$total]);
 
 ?>
+<table>
+    <thea>
+            <tr>
+                <th></th>
+            </tr>
+    </thea>
+    <tbod>
+            <tr>
+                <td></td>
+            </tr>
+    </tbod>
+</table>
